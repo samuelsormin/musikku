@@ -1,5 +1,6 @@
-import Head from 'next/head'
-import FooterMenu from '../components/FooterMenu'
+import Head from 'next/head';
+import FooterMenu from '../components/FooterMenu';
+import Search from '../components/Search';
 
 export default function Home() {
   return (
@@ -11,7 +12,10 @@ export default function Home() {
       </Head>
       <main className="max-w-md mx-auto min-h-screen">
         <div className="mx-5 pt-5">
-          <h1 className="text-2xl font-bold">Downloaded songs</h1>
+          <h1 className="text-2xl font-bold">Downloaded musics</h1>
+        </div>
+        <div className="mx-5 pt-5">
+          <Search placeholder="Search downloaded musics" />
         </div>
         <div className="mx-5 pt-8 space-y-3">
           <div className="relative">
@@ -60,5 +64,5 @@ export default function Home() {
       </main>      
       <FooterMenu activeMenu="home" />
     </>
-  )
+  );
 }
