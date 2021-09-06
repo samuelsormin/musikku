@@ -1,4 +1,5 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import FooterMenu from '../components/FooterMenu';
 
 export default function Home() {
   return (
@@ -42,6 +43,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+      <FooterMenu activeMenu="search" />
     </>
-  )
+  );
 }
