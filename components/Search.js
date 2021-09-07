@@ -1,4 +1,4 @@
-export default function Search({ placeholder }) {
+export default function Search({ placeholder, query, setQuery, handleSearch }) {
   return(    
     <div className="relative">
       <div className="absolute left-2 top-2.5">
@@ -6,7 +6,14 @@ export default function Search({ placeholder }) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
-      <input type="text" placeholder={placeholder} className="w-full border outline-none pl-10 pr-3 py-2 rounded-xl" /> 
+      <form onSubmit={handleSearch}>
+        <input type="text"
+          placeholder={placeholder}
+          className="w-full border outline-none pl-10 pr-3 py-2 rounded-xl"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </form>
     </div>
   );
 }
