@@ -4,9 +4,56 @@ import FooterMenu from '../components/FooterMenu';
 import Search from '../components/Search';
 import MusicList from "../components/MusicList";
 
-export default function Home() {  
+const audioHandler = () => {
+  const [controlObj, setControlObj] = React.useState({
+    id: '',
+    prevId: '',
+    isPlaying: false
+  });
+
+  const playerHandler = (e) => {
+    let videoid = e.currentTarget.dataset.videoid;
+
+    if(videoid == controlObj.id) {
+      setControlObj({
+        id: videoid,
+        prevId: videoid,
+        isPlaying: !controlObj.isPlaying
+      });
+    }
+
+    if(videoid != controlObj.id) {
+      setControlObj({
+        id: videoid,
+        prevId: controlObj.id,
+        isPlaying: true
+      });
+    }
+  }
+
+  React.useEffect(() => {
+    let audioPlayer = null;
+    
+    if(controlObj.prevId) {
+      if(controlObj.prevId != controlObj.id) {
+        audioPlayer = document.getElementById('player'+controlObj.prevId);
+        audioPlayer.pause();
+      }
+    }
+
+    if(controlObj.id) {
+      audioPlayer = document.getElementById('player'+controlObj.id);
+      controlObj.isPlaying ? audioPlayer.play() : audioPlayer.pause();
+    }
+  }, [controlObj]);
+
+  return [playerHandler, controlObj];
+}
+
+export default function SearchPage() {  
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResult, setSearchResult] = React.useState(null);
+  const [playerHandler, controlObj] = audioHandler();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -14,7 +61,7 @@ export default function Home() {
       try {
         const res = await fetch('/api/search-youtube?q='+searchQuery).then(response => response.json());
         setSearchResult(res.results);
-
+        
       } catch(err) {
         console.log(err);
       }
@@ -42,7 +89,13 @@ export default function Home() {
         </div>       
         <div className="mx-5 pt-8 pb-28 space-y-3">
           {searchResult ? searchResult.items.map((result, index) => (
-            <MusicList music={result} key={result.id.videoId+index} />
+            <MusicList
+             key={result.id.videoId+index}
+             music={result}
+             action="stream"
+             controlObj={controlObj}
+             playerHandler={playerHandler}
+            />
           )):
             ''
           }
