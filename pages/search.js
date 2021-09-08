@@ -4,7 +4,7 @@ import FooterMenu from '../components/FooterMenu';
 import Search from '../components/Search';
 import MusicList from "../components/MusicList";
 
-const audioHandler = () => {
+const AudioHandler = () => {
   const [controlObj, setControlObj] = React.useState({
     id: '',
     prevId: '',
@@ -53,7 +53,7 @@ const audioHandler = () => {
 export default function SearchPage() {  
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResult, setSearchResult] = React.useState(null);
-  const [playerHandler, controlObj] = audioHandler();
+  const [playerHandler, controlObj] = AudioHandler();
 
   const handleSearch = async (e) => {
     e.preventDefault();
