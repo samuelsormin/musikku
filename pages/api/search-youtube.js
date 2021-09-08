@@ -6,7 +6,7 @@ async function handler(req, res) {
       'q='+req.query.q,
       'maxResults=10',
       'type=video',
-      'key=AIzaSyBwS02Ib9HNFxxZHdmmEac2e_ht8lD7OC0'
+      'key='+process.env.YOUTUBE_API_KEY
     ];
   
     const results = await fetch(url+params.join('&')).then(response => response.json());
