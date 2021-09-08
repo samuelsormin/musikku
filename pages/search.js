@@ -47,16 +47,22 @@ const AudioHandler = () => {
     }
   }, [controlObj]);
 
-  return [playerHandler, controlObj];
+  return [playerHandler, controlObj, setControlObj];
 }
 
 export default function SearchPage() {  
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResult, setSearchResult] = React.useState(null);
-  const [playerHandler, controlObj] = AudioHandler();
+  const [playerHandler, controlObj, setControlObj] = AudioHandler();
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setControlObj({
+      id: '',
+      prevId: '',
+      isPlaying: false
+    });
+
     if(searchQuery != '') {
       try {
         const res = await fetch('/api/search-youtube?q='+searchQuery).then(response => response.json());
