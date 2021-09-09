@@ -3,52 +3,7 @@ import Head from 'next/head';
 import FooterMenu from '../components/FooterMenu';
 import Search from '../components/Search';
 import MusicList from "../components/MusicList";
-
-const AudioHandler = () => {
-  const [controlObj, setControlObj] = React.useState({
-    id: '',
-    prevId: '',
-    isPlaying: false
-  });
-
-  const playerHandler = (e) => {
-    let videoid = e.currentTarget.dataset.videoid;
-
-    if(videoid == controlObj.id) {
-      setControlObj({
-        id: videoid,
-        prevId: videoid,
-        isPlaying: !controlObj.isPlaying
-      });
-    }
-
-    if(videoid != controlObj.id) {
-      setControlObj({
-        id: videoid,
-        prevId: controlObj.id,
-        isPlaying: true
-      });
-    }
-  }
-
-  React.useEffect(() => {
-    let audioPlayer = null;
-    
-    if(controlObj.prevId) {
-      if(controlObj.prevId != controlObj.id) {
-        audioPlayer = document.getElementById('player'+controlObj.prevId);
-        audioPlayer.pause();
-      }
-    }
-
-    if(controlObj.id) {
-      audioPlayer = document.getElementById('player'+controlObj.id);
-      controlObj.isPlaying ? audioPlayer.play() : audioPlayer.pause();
-    }
-  }, [controlObj]);
-
-  return [playerHandler, controlObj, setControlObj];
-}
+import AudioHandler from "../helpers/AudioHandler";
 
 export default function SearchPage() {  
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -93,7 +48,8 @@ export default function SearchPage() {
             handleSearch={handleSearch}
           />
         </div>       
-        <div className="mx-5 pt-8 pb-28 space-y-3">
+        <div className="mx-5 pt-6 pb-28 space-y-3">
+          {searchResult && <p className="text-sm text-gray-500">Showing top 10 results for <strong className="text-black">"{searchQuery}"</strong></p>}
           {searchResult ? searchResult.items.map((result, index) => (
             <MusicList
              key={result.id.videoId+index}
