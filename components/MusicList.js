@@ -4,6 +4,8 @@ import moment from "moment";
 
 export default function MusicList(props) {
   const [durations, setDurations] = React.useState('');
+  const [inProgress, setInProgress] = React.useState(false);
+  const [isSuccess, setIsSuccess] = React.useState(false);
 
   React.useEffect(() => {
     async function getDurations() {
@@ -19,8 +21,63 @@ export default function MusicList(props) {
     getDurations();
   }, []);
   
+  const save = async () => {
+    setInProgress(true);
+    
+    try {
+      const data = {
+        "id": {
+          "videoId": props.music.id.videoId
+        },
+        "snippet": {
+          "title": props.music.snippet.title,
+          "channelId": props.music.snippet.channelId,
+          "channelTitle": props.music.snippet.channelTitle,
+          "thumbnails": {
+            "default": {
+              "url": props.music.snippet.thumbnails.default.url,
+              "width": props.music.snippet.thumbnails.default.width,
+              "height": props.music.snippet.thumbnails.default.height
+            },
+            "medium": {
+              "url": props.music.snippet.thumbnails.medium.url,
+              "width": props.music.snippet.thumbnails.medium.width,
+              "height": props.music.snippet.thumbnails.medium.height
+            },
+            "high": {
+              "url": props.music.snippet.thumbnails.high.url,
+              "width": props.music.snippet.thumbnails.high.width,
+              "height": props.music.snippet.thumbnails.high.height
+            }
+          },
+          "publishedAt": props.music.snippet.publishedAt
+        }
+      }
+
+      const requestOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      }
+
+      const res = await fetch("https://6139752e1fcce10017e78afb.mockapi.io/api/v1/musics", requestOptions)
+        .then(response => response.json());
+      
+      setInProgress(false);
+      setIsSuccess(true);
+
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="relative">
+      {inProgress && <div className="absolute bg-gray-100 bg-opacity-70 flex items-center w-full h-full rounded-xl z-10">
+        <div className="w-full">
+          <img className="mx-auto w-16" src="/img/loading.gif" />
+        </div>
+      </div>}
       <div className={
         props.action == 'stream'
         ? 'flex bg-gray-50 rounded-xl p-2 border border-gray-100 w-11/12'
@@ -64,12 +121,12 @@ export default function MusicList(props) {
           )}
         </div>}
         {props.action == 'save' && <div className="flex -m-1 mr-1">
-          <button className="">
+          <button onClick={save} className={isSuccess ? 'hidden' : 'highlight-transparent'}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-9 text-orange-100" viewBox="0 0 20 20" fill="currentColor">
               <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
             </svg>
           </button>
-          <button className="hidden">
+          <button className={isSuccess ? 'highlight-transparent' : 'hidden'}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-9 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
               <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
             </svg>
