@@ -4,11 +4,16 @@ import FooterMenu from '../components/FooterMenu';
 import Search from '../components/Search';
 import MusicList from "../components/MusicList";
 import AudioHandler from "../helpers/AudioHandler";
+import ytdata from "../public/search-result.json";
 
 export default function SearchPage() {  
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResult, setSearchResult] = React.useState(null);
   const [playerHandler, controlObj, setControlObj] = AudioHandler();
+
+  React.useEffect(() => {
+    setSearchResult(ytdata);
+  }, []);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -42,7 +47,7 @@ export default function SearchPage() {
         </div>
         <div className="mx-5 pt-5">
           <Search
-            placeholder="Search & download musics"
+            placeholder="Search &#38; download musics"
             query={searchQuery}
             setQuery= {setSearchQuery}
             handleSearch={handleSearch}
@@ -54,7 +59,7 @@ export default function SearchPage() {
             <MusicList
              key={result.id.videoId+index}
              music={result}
-             action="stream"
+             action="save"
              controlObj={controlObj}
              playerHandler={playerHandler}
             />
