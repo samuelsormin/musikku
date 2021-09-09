@@ -21,14 +21,18 @@ export default function MusicList(props) {
   
   return (
     <div className="relative">
-      <div className="flex bg-gray-50 rounded-xl p-2 border border-gray-100 w-11/12">
+      <div className={
+        props.action == 'stream'
+        ? 'flex bg-gray-50 rounded-xl p-2 border border-gray-100 w-11/12'
+        : 'flex bg-gray-50 rounded-xl p-2 border border-gray-100'
+      }>
         <div className="relative flex-none w-16 h-16 overflow-hidden rounded-xl bg-gray-300 mr-3">
           <Image src={props.music.snippet.thumbnails.medium.url} layout="fill" objectFit="cover" />          
         </div>
         <audio id={'player'+props.music.id.videoId}>
           <source src={'/api/stream?id='+props.music.id.videoId} />
         </audio>
-        <div className="w-7/12">
+        <div className={props.action == 'stream' ? 'w-7/12' : 'w-8/12'}>
           <p className="font-bold text-sm">
             <span dangerouslySetInnerHTML={{__html: props.music.snippet.title}}></span>
           </p>
@@ -59,10 +63,17 @@ export default function MusicList(props) {
             </button>
           )}
         </div>}
-        {props.action == 'save' && <div className="flex w-16 h-14 items-center justify-center rounded-xl bg-orange-500">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 text-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
+        {props.action == 'save' && <div className="flex -m-1 mr-1">
+          <button className="">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-9 text-orange-100" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+            </svg>
+          </button>
+          <button className="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-9 text-orange-500" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
+            </svg>
+          </button>
         </div>}
       </div>
     </div>
