@@ -29,7 +29,9 @@ export default function MusicList(props) {
           <source src={'/api/stream?id='+props.music.id.videoId} />
         </audio>
         <div className="w-7/12">
-          <p className="font-bold text-sm">{props.music.snippet.title}</p>
+          <p className="font-bold text-sm">
+            <span dangerouslySetInnerHTML={{__html: props.music.snippet.title}}></span>
+          </p>
           <p className="text-sm text-orange-500">{props.music.snippet.channelTitle}</p>
           <p className="text-sm text-gray-500">{moment(props.music.snippet.publishedAt).format("DD MMM, YYYY")} • {durations}</p>
         </div>
