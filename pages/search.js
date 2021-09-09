@@ -54,7 +54,7 @@ export default function SearchPage() {
           />
         </div>       
         <div className="mx-5 pt-6 pb-28 space-y-3">
-          {searchResult && <p className="text-sm text-gray-500">Showing top 10 results for <strong className="text-black">"{searchQuery}"</strong></p>}
+          {searchResult && <p className="text-sm text-gray-500">Showing top 10 results for <strong className="text-black">&quot;{searchQuery}&quot;</strong></p>}
           {searchResult ? searchResult.items.map((result, index) => (
             <MusicList
              key={result.id.videoId+index}
