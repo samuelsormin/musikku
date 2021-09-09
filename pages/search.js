@@ -4,17 +4,12 @@ import FooterMenu from '../components/FooterMenu';
 import Search from '../components/Search';
 import MusicList from "../components/MusicList";
 import AudioHandler from "../helpers/AudioHandler";
-import ytdata from "../public/search-result.json";
 
 export default function SearchPage() {  
   const [searchQuery, setSearchQuery] = React.useState('');
   const [searchResult, setSearchResult] = React.useState(null);
   const [playerHandler, controlObj, setControlObj] = AudioHandler();
-
-  React.useEffect(() => {
-    setSearchResult(ytdata);
-  }, []);
-
+  
   const handleSearch = async (e) => {
     e.preventDefault();
     setControlObj({
@@ -54,7 +49,9 @@ export default function SearchPage() {
           />
         </div>       
         <div className="mx-5 pt-6 pb-28 space-y-3">
-          {searchResult && <p className="text-sm text-gray-500">Showing top 10 results for <strong className="text-black">&quot;{searchQuery}&quot;</strong></p>}
+          {searchResult && <p className="text-sm text-gray-500">
+              Showing top 10 results for <strong className="text-black">&quot;{searchQuery}&quot;</strong>
+          </p>}
           {searchResult ? searchResult.items.map((result, index) => (
             <MusicList
              key={result.id.videoId+index}
