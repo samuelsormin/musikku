@@ -29,10 +29,10 @@ export default function Home({musics}) {
         <div className="mx-5 pt-5">
           <h1 className="text-2xl font-bold">Downloaded musics</h1>
         </div>
-        <div className="mx-5 pt-5">
+        {/* <div className="mx-5 pt-5">
           <Search placeholder="Search downloaded musics" />
-        </div>
-        <div className="mx-5 pt-8 space-y-3">          
+        </div> */}
+        <div className="mx-5 pt-8 pb-28 space-y-3">          
           {musics ? musics.map((result, index) => (
               <MusicList
               key={result.id.videoId+index}
